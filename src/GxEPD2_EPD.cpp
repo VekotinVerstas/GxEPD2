@@ -60,7 +60,7 @@ void GxEPD2_EPD::init(uint32_t serial_diag_bitrate, bool initial, bool pulldown_
   {
     pinMode(_busy, INPUT);
   }
-  SPI.begin();
+  SPI.begin(13, 19, 14, 15); // SCK, MISO ( not connected to epaper ), MOSI, SS 
 }
 
 void GxEPD2_EPD::_reset()

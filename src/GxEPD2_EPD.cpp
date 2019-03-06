@@ -97,6 +97,7 @@ void GxEPD2_EPD::_waitWhileBusy(const char* comment, uint16_t busy_time)
     unsigned long start = micros();
     while (1)
     {
+    //Serial.println("Busy");
       if (digitalRead(_busy) != _busy_level) break;
       delay(1);
       if (micros() - start > _busy_timeout)
@@ -105,17 +106,17 @@ void GxEPD2_EPD::_waitWhileBusy(const char* comment, uint16_t busy_time)
         break;
       }
     }
-    if (comment)
+    //if (comment)
     {
-#if !defined(DISABLE_DIAGNOSTIC_OUTPUT)
-      if (_diag_enabled)
+    //#if !defined(DISABLE_DIAGNOSTIC_OUTPUT)
+    // if (_diag_enabled)
       {
         unsigned long elapsed = micros() - start;
-        Serial.print(comment);
+	//  Serial.print(comment);
         Serial.print(" : ");
         Serial.println(elapsed);
       }
-#endif
+      //#endif
     }
     (void) start;
   }
@@ -133,7 +134,18 @@ void GxEPD2_EPD::_writeCommand(uint8_t c)
   SPI.endTransaction();
 }
 
-void GxEPD2_EPD::_writeData(uint8_t d)
+uint8_t GxEPD2_EPD::readTemp()
+{
+ uint8_t val=10;  
+ _writeCommand(0x43);
+ //_waitWhileBusy(NULL, 60000);
+ while( digitalRead(_busy)==LOW ) Serial.println("Busy");
+ val = _writeData(255);  // read
+ val += _writeData(255);
+ return val;
+}    
+
+uint8_t GxEPD2_EPD::_writeData(uint8_t d)
 {
   SPI.beginTransaction(_spi_settings);
   if (_cs >= 0) digitalWrite(_cs, LOW);

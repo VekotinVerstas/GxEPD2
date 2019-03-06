@@ -106,6 +106,11 @@ class GxEPD2_3C : public Adafruit_GFX
       else if (color == GxEPD_RED) _color_buffer[i] = (_color_buffer[i] & (0xFF ^ (1 << (7 - x % 8))));
     }
 
+uint8_t readTemp()
+ {
+ return epd2.readTemp();
+ }
+
     void init(uint32_t serial_diag_bitrate = 0) // = 0 : disabled
     {
       epd2.init(serial_diag_bitrate);

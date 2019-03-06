@@ -60,11 +60,12 @@ class GxEPD2_EPD
     {
       return (a > b ? a : b);
     };
-  protected:
+    uint8_t readTemp();
+protected:
     void _reset();
     void _waitWhileBusy(const char* comment = 0, uint16_t busy_time = 5000);
     void _writeCommand(uint8_t c);
-    void _writeData(uint8_t d);
+    uint8_t _writeData(uint8_t d);
     void _writeData(const uint8_t* data, uint16_t n);
     void _writeDataPGM(const uint8_t* data, uint16_t n);
     void _writeCommandData(const uint8_t* pCommandData, uint8_t datalen);
